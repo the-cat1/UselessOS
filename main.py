@@ -1,3 +1,9 @@
+"""
+UselessOS
+By   the-cat1
+time 2022/7/16
+"""
+
 import os
 import sys
 import time
