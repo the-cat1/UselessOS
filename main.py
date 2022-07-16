@@ -293,7 +293,7 @@ def help_(args: tuple):
               "<clear>\t\t\t清除屏幕。\n"
               "<dir/ls>\t\t列出目录下的所有文件。\n"
               "<exit>\t\t\t退出UselessOS。\n"
-              "<help>\t\t\t帮助命令。"
+              "<help>\t\t\t帮助命令。\n"
               "<makedirs>\t\t创建多层目录。\n"
               "<mkdir>\t\t\t创建单层目录。\n"
               "<newfile>\t\t创建文件。\n"
