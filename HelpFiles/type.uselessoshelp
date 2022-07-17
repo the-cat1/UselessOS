@@ -1,0 +1,15 @@
+{
+  "command": "cd",
+  "helps": [
+    "type (filename)",
+    "",
+    "filename 文件名。",
+    "",
+    "输出某个文件的内容。",
+    "",
+    "",
+    "例如：",
+    "    type test.txt",
+    "上面的例子将输出当前目录下的\"test.txt\"文件内容(当前目录下存在\"test.txt\")。"
+  ]
+}

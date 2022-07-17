@@ -1,0 +1,13 @@
+{
+  "command": "ver",
+  "helps": [
+    "ver",
+    "",
+    "输出UselessOS的版本信息。",
+    "",
+    "",
+    "例如：",
+    "    ver",
+    "上面的例子会输出UselessOS的版本信息。"
+  ]
+}

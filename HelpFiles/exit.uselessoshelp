@@ -1,0 +1,13 @@
+{
+  "command": "exit",
+  "helps": [
+    "exit",
+    "",
+    "退出UselessOS。",
+    "",
+    "",
+    "例如：",
+    "    exit",
+    "上面的例子会退出UselessOS。"
+  ]
+}

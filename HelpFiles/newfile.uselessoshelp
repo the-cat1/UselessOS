@@ -1,0 +1,15 @@
+{
+  "command": "newfile",
+  "helps": [
+    "newfile (filename)",
+    "",
+    "filename 文件名。",
+    "",
+    "新建一个文件。",
+    "",
+    "",
+    "例如：",
+    "    newfile test.txt",
+    "上面的例子在当前目录中创建了一个名为\"test.txt\"的文件。"
+  ]
+}

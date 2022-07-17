@@ -1,0 +1,15 @@
+{
+  "command": "makedirs",
+  "helps": [
+    "makedirs (dirs)",
+    "",
+    "dirs   要创建的目录。",
+    "",
+    "创建多层目录。",
+    "",
+    "",
+    "例子：",
+    "    makedirs test1\\\\test2",
+    "上面的例子在当前目录创建了一个\"test1\"目录，又在\"test1\"目录中创建了\"test2\"目录。\n"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "command": "rename",
+  "helps": [
+    "rename (filename) (newName)",
+    "",
+    "filename 文件名。",
+    "newName  新文件名。",
+    "",
+    "重命名某一文件。",
+    "",
+    "",
+    "例如：",
+    "    rename test.txt hello.txt",
+    "上面的例子会将当前目录下的\"test.txt\"重命名为\"hello.txt\"。"
+  ]
+}
