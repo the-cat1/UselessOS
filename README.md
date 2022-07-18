@@ -11,6 +11,7 @@ python main.py
 将会看到如下命令行:
 ```
 *****Welcome to UselessOS!*****
+UselessOS(无用系统) ​0.1.1​ [2022/7/17]，By the-cat1，Github https://github.com/the-cat1/UselessOS.git。
 Driver>
 ```
 此时，您就可以输入命令了！试着输入`help`并回车。
@@ -22,7 +23,7 @@ UselessOS支持许多命令，下表列出了UselessOS支持的所有命令。
 >提示：使用`help (命令)`可以查看命令的帮助信息。
 
 | 命令 | 概述 |
-| :---: | :---: |
+| :---: | :--- |
 | cd | 跳转到某个目录。 |
 | clear | 清除屏幕。 |
 | dir/ls | 列出目录下的所有文件。 |
@@ -35,3 +36,4 @@ UselessOS支持许多命令，下表列出了UselessOS支持的所有命令。
 | rm | 删除文件。 |
 | rmdir | 删除文件夹。 |
 | type | 输出文件的内容。 |
+| ver | 输出UselessOS的版本信息。|
