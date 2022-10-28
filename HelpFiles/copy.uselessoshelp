@@ -1,0 +1,17 @@
+{
+  "command": "copy",
+  "helps": [
+    "copy (file1) (file2)",
+    "",
+    "file1  要复制的文件",
+    "file2  复制后的文件",
+    "",
+    "复制file1的副本，名为file2。",
+    "",
+    "",
+    "例子：",
+    "    copy test1.txt test1.copy.txt",
+    "上面的例子会创建\"test1.copy.txt\"文件，并且它与\"test1.txt\"一样(当前目录存在\"test1.txt\")。\n"
+
+  ]
+}

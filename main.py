@@ -1,9 +1,12 @@
 """
 UselessOS
 By      the-cat1
-Version 0.1.1
+Version 0.1.2
 Time    2022/7/17
 """
+
+VERSION = "0.1.2"
+END_WRITE_DATE = "2022/10/22"
 
 import json
 import os
@@ -11,8 +14,8 @@ import shutil
 import sys
 import time
 
-VERSION = "0.1.1"
-VER_MAG = f"UselessOS(无用系统) {VERSION} [2022/7/17]，By the-cat1，Github https://github.com/the-cat1/UselessOS.git。"
+VER_MAG = f"UselessOS(无用系统) {VERSION} [{END_WRITE_DATE}]，" \
+          "By the-cat1，Github https://github.com/the-cat1/UselessOS.git。"
 
 DRIVER = "Driver"
 HELP = os.path.abspath("HelpFiles\\")
@@ -27,19 +30,18 @@ def helpInit():
     """初始化Help系统"""
 
     """获取帮助文件"""
-    helpFiles = os.listdir(HELP)
-    for file in range(len(helpFiles)):
-        if os.path.splitext(helpFiles[file])[1] != HELP_FILE_SPLITEXT:  # 后缀名不是HELP_FILE_SPLITEXT，即不是帮助文件
-            del helpFiles[file]
+    help_files = os.listdir(HELP)
+    for file in range(len(help_files)):
+        if os.path.splitext(help_files[file])[1] != HELP_FILE_SPLITEXT:  # 后缀名不是HELP_FILE_SPLITEXT，即不是帮助文件
+            del help_files[file]
 
     """录入帮助信息"""
-    for file in helpFiles:
+    for file in help_files:
         with open(os.path.abspath(os.path.join(HELP, file)), encoding="utf-8") as f:
-            # noinspection PyBroadException
             try:
-                helpJson = json.load(f)
-                helpDocs.update({helpJson["command"]: "\n".join(helpJson["helps"])})
-            except:
+                help_json = json.load(f)
+                helpDocs.update({help_json["command"]: "\n".join(help_json["helps"])})
+            except json.JSONDecodeError:
                 print(f"\033[33m\"{file}\"帮助文件存在问题！\033[0m")
 
 
@@ -60,6 +62,19 @@ def cd(args: tuple):
             print("\033[31m错误！\n\033[0m")
 
 
+def copy(args: tuple):
+    if len(args) < 2:
+        print("\033[31m\"copy\"命令需要两个参数！\033[0m\n")
+    else:
+        try:
+            file1 = os.path.abspath(os.path.join(directory, args[0]))
+            file2 = os.path.abspath(os.path.join(directory, args[1]))
+            shutil.copyfile(file1, file2)
+            print(f"文件 {args[0]} 已复制到 {args[1]}。")
+        except shutil.Error:
+            print("\033[31m文件无法复制!\033[0m")
+
+
 def mkdir(args: tuple):
     if len(args) == 0:
         print("\033[31m\"mkdir\"命令需要一个参数！\033[0m\n")
@@ -69,7 +84,7 @@ def mkdir(args: tuple):
         except FileNotFoundError:
             print("\033[31m\"mkdir\"命令只能创建单层目录！要创建多层目录，请使用\"makedirs\"\033[0m")
         except FileExistsError:
-            print("\033[31m文件已存在！\033[0m")
+            print("\033[31m文件夹已存在！\033[0m")
 
 
 def makedirs(args: tuple):
@@ -81,7 +96,7 @@ def makedirs(args: tuple):
         except FileNotFoundError:
             print("\033[31m错误！\033[0m")
         except FileExistsError:
-            print("\033[31m文件已存在！\033[0m")
+            print("\033[31m文件夹已存在！\033[0m")
 
 
 def newfile(args: tuple):
@@ -117,36 +132,37 @@ def dir_(args: tuple):
     if len(args) != 0:
         print("\033[31m\"dir\"没有参数！\033[0m\n")
         return
-    files = os.listdir(directory)
-    fileCount = 0
-    dirCount = 0
 
-    print("\n", directory, " 目录下的文件(文件夹):")
+    files = os.listdir(directory)
+    file_count = 0
+    dir_count = 0
+
+    print(f"\n{directory} 目录下的文件(文件夹):")
     for f in files:
-        fPath = os.path.abspath(os.path.join(directory, f))
-        if os.path.isfile(fPath):
-            print(f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getmtime(fPath)))}\t\t"
-                  f"{os.path.getsize(fPath)}\t\t"
+        f_path = os.path.abspath(os.path.join(directory, f))
+        if os.path.isfile(f_path):
+            print(f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getmtime(f_path)))}\t\t"
+                  f"{os.path.getsize(f_path)}\t\t"
                   f"{f}")
-            fileCount += 1
+            file_count += 1
         else:
-            print(f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getmtime(fPath)))}\t\t"
+            print(f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getmtime(f_path)))}\t\t"
                   f"<DIR>\t"
                   f"{f}")
 
-            dirCount += 1
+            dir_count += 1
 
-    print(f"{fileCount} 个文件，{dirCount} 个文件夹。\n")
+    print(f"{file_count} 个文件，{dir_count} 个文件夹。\n")
 
 
 def rm(args: tuple):
     if len(args) == 0:
         print("\033[31m\"rm\"命令需要一个参数！\033[0m")
     else:
-        fPath = os.path.abspath(os.path.join(directory, args[0]))
-        if os.path.isfile(fPath):
+        f_path = os.path.abspath(os.path.join(directory, args[0]))
+        if os.path.isfile(f_path):
             try:
-                os.remove(fPath)
+                os.remove(f_path)
                 print(f"{args[0]} 已删除。")
             except OSError:
                 print("\033[31m删除失败！请检查目录是否正确！\033[0m")
@@ -159,15 +175,15 @@ def rmdir(args: tuple):
     if len(args) == 0:
         print("\"rmdir\"命令需要一个参数！")
     else:
-        dPath = os.path.abspath(os.path.join(directory, args[0]))
-        if os.path.isdir(dPath):
+        d_path = os.path.abspath(os.path.join(directory, args[0]))
+        if os.path.isdir(d_path):
             # 删除所有文件
             if "/a" in args:
-                shutil.rmtree(dPath)
+                shutil.rmtree(d_path)
                 print(f"{os.path.join(directory, args[0])} 及其子文件夹已删除。")
             else:
                 try:
-                    os.rmdir(dPath)
+                    os.rmdir(d_path)
                     print(f"{os.path.join(directory, args[0])} 已删除。")
                 except OSError:
                     print("\033[31m删除失败！请检查目录是否正确、为空！\033[0m")
@@ -191,6 +207,7 @@ def help_(args: tuple):
     if len(args) == 0:
         print("Help帮助：\n"
               "<cd>\t\t\t跳转到某个目录。\n"
+              "<copy>\t\t\t复制文件。\n"
               "<clear>\t\t\t清除屏幕。\n"
               "<dir/ls>\t\t列出目录下的所有文件。\n"
               "<exit>\t\t\t退出UselessOS。\n"
@@ -244,7 +261,8 @@ commands = {
     "help": help_,
     "rename": rename,
     "clear": clear,
-    "ver": ver
+    "ver": ver,
+    "copy": copy
 }
 
 
@@ -259,12 +277,12 @@ def main():
     """初始化"""
     # 判断"Driver\"文件夹是否存在
     if not os.path.isdir(os.path.abspath(DRIVER + "\\")):
-        print("\033[33m\"Driver\"文件夹不存在，已自动创建！\033[0m")
+        print(f"\033[33m\"{DRIVER}\"文件夹不存在，已自动创建！\033[0m")
         os.mkdir(os.path.abspath(DRIVER))
 
     # 判断"Help\"文件夹是否存在
     if not os.path.isdir(HELP):
-        print("\033[33m\"HELP\"文件夹不存在，已自动创建！\033[0m")
+        print(f"\033[33m\"{HELP}\"文件夹不存在，已自动创建！\033[0m")
         os.mkdir(HELP)
 
     helpInit()
@@ -275,30 +293,32 @@ def main():
             continue
 
         """获取主命令"""
-        mainCommand = ""
+        main_command = ""
         for c in command:
             if c == " ":
                 break
             else:
-                mainCommand += c
+                main_command += c
 
         """获取参数"""
         args = [""]
+        up_char = ""
         x = 0
-        for c in command[(len(mainCommand)):]:
-            if c == " ":
+        for c in command[(len(main_command)):]:
+            if c == " " and up_char != " ":
                 x += 1  # 下一个参数
                 args.append("")
                 continue
             else:
                 args[x] += c
+            up_char = c
         del args[0]  # 去掉第一个空参数
 
-        # 拿到 主命令mainCommand 和 参数args
+        # 拿到 主命令main_command 和 参数args
         try:
-            commands[mainCommand](tuple(args))  # 调用对应方法
+            commands[main_command](tuple(args))  # 调用对应方法
         except KeyError:
-            print(f"\033[31m不存在的命令\"{mainCommand}\"!\033[0m\n")
+            print(f"\033[31m不存在的命令\"{main_command}\"!\033[0m\n")
 
 
 if __name__ == "__main__":
