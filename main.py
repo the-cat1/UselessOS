@@ -2,11 +2,11 @@
 UselessOS
 By      the-cat1
 Version 0.1.2
-Time    2022/7/17
+Time    2022/10/29
 """
 
 VERSION = "0.1.2"
-END_WRITE_DATE = "2022/10/22"
+END_WRITE_DATE = "2022/10/29"
 
 import json
 import os
@@ -32,7 +32,8 @@ def helpInit():
     """获取帮助文件"""
     help_files = os.listdir(HELP)
     for file in range(len(help_files)):
-        if os.path.splitext(help_files[file])[1] != HELP_FILE_SPLITEXT:  # 后缀名不是HELP_FILE_SPLITEXT，即不是帮助文件
+        # 后缀名不是HELP_FILE_SPLITEXT，即不是帮助文件
+        if os.path.splitext(help_files[file])[1] != HELP_FILE_SPLITEXT:
             del help_files[file]
 
     """录入帮助信息"""
@@ -40,19 +41,22 @@ def helpInit():
         with open(os.path.abspath(os.path.join(HELP, file)), encoding="utf-8") as f:
             try:
                 help_json = json.load(f)
-                helpDocs.update({help_json["command"]: "\n".join(help_json["helps"])})
+                helpDocs[help_json["command"]] = "\n".join(help_json["helps"])
             except json.JSONDecodeError:
                 print(f"\033[33m\"{file}\"帮助文件存在问题！\033[0m")
 
 
 def cd(args: tuple):
+    """跳转到某个目录。"""
     global directory
 
     if len(args) == 0:
         print(directory + "\n")
     else:
         if args[0] == ".":
-            directory = directory
+            # 啥也不动
+            # directory = directory
+            pass
         elif args[0] == "..":
             if directory != DRIVER:
                 directory = os.path.dirname(directory)
@@ -63,6 +67,7 @@ def cd(args: tuple):
 
 
 def copy(args: tuple):
+    """复制文件。"""
     if len(args) < 2:
         print("\033[31m\"copy\"命令需要两个参数！\033[0m\n")
     else:
@@ -73,21 +78,25 @@ def copy(args: tuple):
             print(f"文件 {args[0]} 已复制到 {args[1]}。")
         except shutil.Error:
             print("\033[31m文件无法复制!\033[0m")
+        except FileNotFoundError:
+            print("\033[31m找不到文件!\033[0m")
 
 
 def mkdir(args: tuple):
+    """创建单层目录。"""
     if len(args) == 0:
         print("\033[31m\"mkdir\"命令需要一个参数！\033[0m\n")
     else:
         try:
             os.mkdir(os.path.abspath(os.path.join(directory, args[0])))
         except FileNotFoundError:
-            print("\033[31m\"mkdir\"命令只能创建单层目录！要创建多层目录，请使用\"makedirs\"\033[0m")
+            print("\033[31m\"mkdir\"命令只能创建单层目录！要创建多层目录，请使用\"makedirs\"。\033[0m")
         except FileExistsError:
             print("\033[31m文件夹已存在！\033[0m")
 
 
 def makedirs(args: tuple):
+    """创建多层目录。"""
     if len(args) == 0:
         print("\033[31m\"makedirs\"命令需要一个参数！\033[0m\n")
     else:
@@ -100,6 +109,7 @@ def makedirs(args: tuple):
 
 
 def newfile(args: tuple):
+    """创建文件。"""
     if len(args) == 0:
         print("\033[31m\"newfile\"命令需要一个参数！\033[0m\n")
     else:
@@ -114,6 +124,7 @@ def newfile(args: tuple):
 
 
 def type_(args: tuple):
+    """输出文件的内容。"""
     if len(args) == 0:
         print("\033[31m\"type\"命令需要一个参数！\033[0m\n")
     else:
@@ -129,6 +140,7 @@ def type_(args: tuple):
 
 
 def dir_(args: tuple):
+    """列出目录下的所有文件。"""
     if len(args) != 0:
         print("\033[31m\"dir\"没有参数！\033[0m\n")
         return
@@ -149,13 +161,13 @@ def dir_(args: tuple):
             print(f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getmtime(f_path)))}\t\t"
                   f"<DIR>\t"
                   f"{f}")
-
             dir_count += 1
 
     print(f"{file_count} 个文件，{dir_count} 个文件夹。\n")
 
 
 def rm(args: tuple):
+    """删除文件。"""
     if len(args) == 0:
         print("\033[31m\"rm\"命令需要一个参数！\033[0m")
     else:
@@ -167,11 +179,12 @@ def rm(args: tuple):
             except OSError:
                 print("\033[31m删除失败！请检查目录是否正确！\033[0m")
         else:
-            print("\033[31m\"rm\"只能删除文件，要删除文件夹，请用\"rmdir\"\033[0m")
+            print("\033[31m\"rm\"只能删除文件，要删除文件夹，请用\"rmdir\"。\033[0m")
     print("\n")
 
 
 def rmdir(args: tuple):
+    """删除文件夹。"""
     if len(args) == 0:
         print("\"rmdir\"命令需要一个参数！")
     else:
@@ -193,6 +206,7 @@ def rmdir(args: tuple):
 
 
 def rename(args: tuple):
+    """重命名文件。"""
     if len(args) != 2:
         print("\033[31m\"rename\"命令需要2个参数！\033[0m\n")
     else:
@@ -204,6 +218,7 @@ def rename(args: tuple):
 
 
 def help_(args: tuple):
+    """帮助命令。"""
     if len(args) == 0:
         print("Help帮助：\n"
               "<cd>\t\t\t跳转到某个目录。\n"
@@ -229,6 +244,7 @@ def help_(args: tuple):
 
 
 def exit_(args: tuple):
+    """退出UselessOS。"""
     if len(args) != 0:
         print("\033[31m\"exit\"没有参数！\033[0m\n")
         return
@@ -238,11 +254,13 @@ def exit_(args: tuple):
 
 # noinspection PyUnusedLocal
 def ver(args: tuple):
+    """输出UselessOS的版本信息。"""
     print(VER_MAG)
 
 
 # noinspection PyUnusedLocal
 def clear(args: tuple):
+    """清除屏幕。"""
     os.system("CLS")
 
 
@@ -289,7 +307,7 @@ def main():
 
     while True:
         command = input(f"{directory}>")
-        if command == "":  # 空指令
+        if command == "":  # 空命令
             continue
 
         """获取主命令"""
@@ -302,17 +320,38 @@ def main():
 
         """获取参数"""
         args = [""]
-        up_char = ""
-        x = 0
-        for c in command[(len(main_command)):]:
-            if c == " " and up_char != " ":
-                x += 1  # 下一个参数
-                args.append("")
-                continue
-            else:
-                args[x] += c
-            up_char = c
-        del args[0]  # 去掉第一个空参数
+        notargs = False
+        argstr = ""
+        main_cmd_len = len(main_command)
+        
+        # 去除命令与参数之间的空格
+        for i in range(main_cmd_len + 1, len(command)):
+            # 如果不是空格了
+            if command[i] != " ":
+                argstr = command[i:]
+                break
+        else:
+            # 没有参数
+            notargs = True
+
+        # 获取参数
+        if not notargs:
+            # 有参数
+            i = 0  # 当前参数序号
+            up_c = " "
+            for c in argstr:
+                if c == " " and up_c != " ":
+                    # 遇到空格
+                    i += 1
+                    args.append("")
+                elif c != " ":
+                    # 不是空格
+                    args[i] += c
+                up_c = c  # 上一个字符
+
+        # 如果没有参数
+        if args == [""]:
+            args = []
 
         # 拿到 主命令main_command 和 参数args
         try:
@@ -322,4 +361,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n强制退出UselessOS...")

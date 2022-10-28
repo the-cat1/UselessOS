@@ -37,7 +37,7 @@ UselessOS支持许多命令，下表列出了UselessOS支持的所有命令。
 | rm | 删除文件。 |
 | rmdir | 删除文件夹。 |
 | type | 输出文件的内容。 |
-| ver | 输出UselessOS的版本信息。|
+| ver | 输出UselessOS的版本信息。 |
 
 ## 版本
 - Alaph
